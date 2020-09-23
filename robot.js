@@ -1,85 +1,132 @@
 const north = {
-    userInput : "N",
-    rows: 0,
-    columns: -1
-}
+  userRepresentation: "N",
+  rows: 0,
+  columns: -1,
+};
 const east = {
-    userInput : "E",
-    rows: 1,
-    columns: 0
-}
+  userRepresentation: "E",
+  rows: 1,
+  columns: 0,
+};
 const south = {
-    userInput : "S",
-    rows: 0,
-    columns: 1
-}
+  userRepresentation: "S",
+  rows: 0,
+  columns: 1,
+};
 const west = {
-    userInput : "W",
-    rows: 1,
-    columns: 0
-}
+  userRepresentation: "W",
+  rows: -1,
+  columns: 0,
+};
 
-const orientation = [north,east,south,west]
+const orientations = [north, east, south, west];
 
-
-function getRoomSize (){
-    let inputSize = prompt("how big it is?");
-    let parsedSize = inputSize.split(" ");
-    return {
-        rows : parsedSize[0],
-        columns : parsedSize[1]
-    }
+function getRoomSize() {
+  let receivedSize = "5 5"; //prompt("How big it is?");
+  let parsedSize = receivedSize.split(" ");
+  return {
+    rows: parsedSize[0],
+    columns: parsedSize[1],
+  };
 }
 
 function getInitialPosition() {
-
-    let inputPosition = prompt("where are you?");
-    let parsedPosition = inputPosition.split(" ");
-    return {
-        row : parsedPosition[0],
-        column : parsedPosition[1],
-        orientation : parsedPosition[2]
-    }
+  let receivedPosition = "4 4 E"; //prompt("Where are you?");
+  let parsedPosition = receivedPosition.split(" ");
+  let orientationRepresentation = parsedPosition[2];
+  return [
+    {
+      row: parseInt(parsedPosition[0]),
+      column: parseInt  (parsedPosition[1]),
+    },
+    orientationRepresentation,
+  ];
 }
 
 function getNavigationCommands() {
-    return prompt("What are your commands?");
+  return "ELLFRFLFFRFF"; //prompt("What are your commands?");
 }
 
-function followNavigationCommands(navigationCommands){
+function followNavigationCommands(navigationCommands) {
+  let orientationsIndex = findOrientationByRepresentation(
+    initialOrientationRepresentation,
+  );
+  console.log(orientationsIndex);
+  [...navigationCommands].map((command) => {
+    switch (command) {
+      case "F":
+        console.log('before position: ', position);
+        position = goStraight(position, orientations[orientationsIndex]);
+        console.log('after position: ', position);
+        console.log('--------------------------------------');
+        break;
+      case "L":
+        console.log('before orientationsIndex: ', orientationsIndex);
+        orientationsIndex = turnLeft(orientationsIndex);
+        console.log('after orientationsIndex: ', orientationsIndex);
+       
+        console.log('orientation: ', orientations[orientationsIndex].userRepresentation);
 
-    [...navigationCommands].map((command) => {
+        break;
+      case "R":
+        orientationsIndex = turnRight(orientationsIndex);
+        console.log('orientation: ', orientations[orientationsIndex].userRepresentation);
 
-        switch (command) {
-            case "F":
-               console.log("Front!"); 
-            break;            
-            case "L":
-            console.log("turn Left!");
-            break;            
-            case "R":
-            console.log("turn Right!");
-            break;
-        
-            default:
-            console.log("unknown order");
-            break;
-        }
+        break;
 
-    })
+      default:
+        console.log("unknown order");
+        break;
+    }
+  });
+  return orientationsIndex;
 }
 
+function findOrientationByRepresentation(representation) {
+  return orientations.findIndex(
+    (orientation) => orientation.userRepresentation === representation,
+  );
+}
+
+function goStraight(position, orientation) {
+  let updatedPosition = position;
+  updatedPosition.row += orientation.rows;
+  updatedPosition.column += orientation.columns;
+
+  return updatedPosition;
+}
+
+function turnLeft(orientationIndex) {
+  let updatedIndex = orientationIndex - 1;
+  updatedIndex < 0 && (updatedIndex = orientations.length - 1);
+
+  return updatedIndex;
+}
+
+function turnRight(orientationIndex) {
+  let updatedIndex = orientationIndex + 1;
+  updatedIndex >= orientations.length && (updatedIndex = 0);
+
+  return updatedIndex;
+}
+
+function reportPosition(index) {
+  console.log(`Final position = ${position.row},${position.column}`);
+  console.log(`Final orientation = ${orientations[index].userRepresentation}`);
+}
 
 const roomSize = getRoomSize();
 
-let position = getInitialPosition();
+let [position, initialOrientationRepresentation] = getInitialPosition();
 
 let navigationCommands = getNavigationCommands();
 
-followNavigationCommands(navigationCommands);
-
-console.log(roomSize);
-console.log(position);
-console.log(navigationCommands);
+console.log(`1. roomSize = ${roomSize.rows},${roomSize.columns}`);
+console.log(`2. position = ${position.row},${position.column}`);
+console.log(`3. orientation = ${initialOrientationRepresentation}`);
 
 
+console.log(`3. navigationCommands = ${navigationCommands}`);
+
+let index = followNavigationCommands(navigationCommands);
+reportPosition(index);
