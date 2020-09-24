@@ -21,56 +21,70 @@ const west = {
 
 const orientations = [north, east, south, west];
 
-function getRoomSize() {
-  let receivedSize = "5 5"; //prompt("How big it is?");
-  let parsedSize = receivedSize.split(" ");
+function getUserData() {
+  const roomSizeReceived = document.getElementById("room-size").value;
+  const positionReceived = document.getElementById("robot-position").value;
+  const commandsReceived = document.getElementById("commands-to-follow").value;
+
+  return [roomSizeReceived, positionReceived, commandsReceived];
+}
+
+function parseRoomSize(roomSizeReceived) {
+  let parsedSize = roomSizeReceived.split(" ");
+
   return {
     rows: parsedSize[0],
     columns: parsedSize[1],
   };
 }
 
-function getInitialPosition() {
-  let receivedPosition = "4 4 E"; //prompt("Where are you?");
+function parseInitialPosition(receivedPosition) {
   let parsedPosition = receivedPosition.split(" ");
   let orientationRepresentation = parsedPosition[2];
   return [
     {
       row: parseInt(parsedPosition[0]),
-      column: parseInt  (parsedPosition[1]),
+      column: parseInt(parsedPosition[1]),
     },
     orientationRepresentation,
   ];
 }
 
-function getNavigationCommands() {
-  return "ELLFRFLFFRFF"; //prompt("What are your commands?");
-}
-
-function followNavigationCommands(navigationCommands) {
+function followNavigationCommands(
+  initialPosition,
+  initialOrientationRepresentation,
+  navigationCommands,
+) {
   let orientationsIndex = findOrientationByRepresentation(
     initialOrientationRepresentation,
   );
+  let position = initialPosition;
   console.log(orientationsIndex);
   [...navigationCommands].map((command) => {
     switch (command) {
       case "F":
-        console.log('before position: ', position);
+        console.log("before position: ", position);
         position = goStraight(position, orientations[orientationsIndex]);
-        console.log('after position: ', position);
-        console.log('--------------------------------------');
+        console.log("after position: ", position);
+        console.log("--------------------------------------");
         break;
       case "L":
-        console.log('before orientationsIndex: ', orientationsIndex);
+        console.log("before orientationsIndex: ", orientationsIndex);
         orientationsIndex = turnLeft(orientationsIndex);
-        console.log('after orientationsIndex: ', orientationsIndex);
-       
-        console.log('orientation: ', orientations[orientationsIndex].userRepresentation);
+        console.log("after orientationsIndex: ", orientationsIndex);
+
+        console.log(
+          "orientation: ",
+          orientations[orientationsIndex].userRepresentation,
+        );
 
         break;
       case "R":
         orientationsIndex = turnRight(orientationsIndex);
-        console.log('orientation: ', orientations[orientationsIndex].userRepresentation);
+        console.log(
+          "orientation: ",
+          orientations[orientationsIndex].userRepresentation,
+        );
 
         break;
 
@@ -79,7 +93,7 @@ function followNavigationCommands(navigationCommands) {
         break;
     }
   });
-  return orientationsIndex;
+  return [position, orientationsIndex];
 }
 
 function findOrientationByRepresentation(representation) {
@@ -110,23 +124,69 @@ function turnRight(orientationIndex) {
   return updatedIndex;
 }
 
-function reportPosition(index) {
-  console.log(`Final position = ${position.row},${position.column}`);
-  console.log(`Final orientation = ${orientations[index].userRepresentation}`);
+function reportPosition(finalPosition, orientationsIndex) {
+  console.log(`Final position = ${finalPosition.row},${finalPosition.column}`);
+  console.log(
+    `Final orientation = ${orientations[orientationsIndex].userRepresentation}`,
+  );
+
+  let resultElement = document.getElementById("text-results");
+  resultElement.innerText = `Report: ${finalPosition.row} ${finalPosition.column} ${orientations[orientationsIndex].userRepresentation}`;
+
+  console.log("exit");
+  let robotImage = document.getElementById("robot-image");
+  robotImage.classList.add("robot-end-line");
+  robotImage.classList.remove("robot-image-start-animation");
 }
 
-const roomSize = getRoomSize();
+function activateAnimation() {
+  let robotImage = document.getElementById("robot-image");
+  robotImage.classList.add("robot-image-start-animation");
+  robotImage.classList.remove("robot-end-line");
+}
 
-let [position, initialOrientationRepresentation] = getInitialPosition();
+function resetControlRoom() {
+  let reportParagraphElement = document.getElementById("text-results");
+  let reportText = reportParagraphElement.innerText;
 
-let navigationCommands = getNavigationCommands();
+  if (reportText.length > 0) {
+    reportParagraphElement.innerText = "";
+    let robotImage = document.getElementById("robot-image");
+    robotImage.classList.add("robot-image-start-animation");
+    robotImage.classList.remove("robot-end-line");
+  }
+}
 
-console.log(`1. roomSize = ${roomSize.rows},${roomSize.columns}`);
-console.log(`2. position = ${position.row},${position.column}`);
-console.log(`3. orientation = ${initialOrientationRepresentation}`);
+/**
+ * Main function
+ */
 
+function executeCommands() {
+  resetControlRoom();
+  const [
+    roomSizeReceived,
+    positionReceived,
+    navigationCommands,
+  ] = getUserData();
 
-console.log(`3. navigationCommands = ${navigationCommands}`);
+  const roomSize = parseRoomSize(roomSizeReceived);
 
-let index = followNavigationCommands(navigationCommands);
-reportPosition(index);
+  let [
+    initialPosition,
+    initialOrientationRepresentation,
+  ] = parseInitialPosition(positionReceived);
+
+  console.log(`1. roomSize = ${roomSize.rows},${roomSize.columns}`);
+  console.log(`2. position = ${initialPosition.row},${initialPosition.column}`);
+  console.log(`3. orientation = ${initialOrientationRepresentation}`);
+
+  console.log(`3. navigationCommands = ${navigationCommands}`);
+
+  let [finalPosition, finalOrientationsIndex] = followNavigationCommands(
+    initialPosition,
+    initialOrientationRepresentation,
+    navigationCommands,
+  );
+  activateAnimation();
+  setTimeout(() => reportPosition(finalPosition, finalOrientationsIndex), 2000);
+}
