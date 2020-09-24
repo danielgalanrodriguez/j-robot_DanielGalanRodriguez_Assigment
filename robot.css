@@ -87,12 +87,19 @@ input[type="text"] {
   left: -4%;
   height: 100px;
   width: 75px;
-
-  /* animation-name: robot-progress; */
-  animation-duration: 5s;
+  animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+}
+
+.robot-image-start-animation {
+
+  animation-name: robot-progress;
+}
+
+.robot-end-line {
+  left: 93%;
 }
 
 @keyframes robot-progress {
@@ -100,16 +107,20 @@ input[type="text"] {
     left: -4%;
   }
   100% {
-    left: 93%;
+    left: 90%;
   }
 }
 
 .progress-percentages {
-    display: flex;
-    justify-content: space-between;
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .results {
-    margin: 4%;
+  margin: 4%;
+}
+
+.results p {
+  margin-top: 2%;
+  color: #66ff66;
 }
