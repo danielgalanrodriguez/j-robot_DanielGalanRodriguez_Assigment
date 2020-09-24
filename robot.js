@@ -1,27 +1,27 @@
 const north = {
   userRepresentation: "N",
-  rows: 0,
-  columns: -1,
+  columns: 0,
+  rows: -1,
 };
 const east = {
   userRepresentation: "E",
-  rows: 1,
-  columns: 0,
+  columns: 1,
+  rows: 0,
 };
 const south = {
   userRepresentation: "S",
-  rows: 0,
-  columns: 1,
+  columns: 0,
+  rows: 1,
 };
 const west = {
   userRepresentation: "W",
-  rows: -1,
-  columns: 0,
+  columns: -1,
+  rows: 0,
 };
 
 const orientations = [north, east, south, west];
 
-function getUserData() {
+function getInputData() {
   const roomSizeReceived = document.getElementById("room-size").value;
   const positionReceived = document.getElementById("robot-position").value;
   const commandsReceived = document.getElementById("commands-to-follow").value;
@@ -33,24 +33,24 @@ function parseRoomSize(roomSizeReceived) {
   let parsedSize = roomSizeReceived.split(" ");
 
   return {
-    rows: parsedSize[0],
-    columns: parsedSize[1],
+    columns: parseInt(parsedSize[0]),
+    rows: parseInt(parsedSize[1]),
   };
 }
 
-function parseInitialPosition(receivedPosition) {
-  let parsedPosition = receivedPosition.split(" ");
+function parseInitialPosition(positionReceived) {
+  let parsedPosition = positionReceived.split(" ");
   let orientationRepresentation = parsedPosition[2];
   return [
     {
-      row: parseInt(parsedPosition[0]),
-      column: parseInt(parsedPosition[1]),
+      column: parseInt(parsedPosition[0]),
+      row: parseInt(parsedPosition[1]),
     },
     orientationRepresentation,
   ];
 }
 
-function followNavigationCommands(
+function executeNavigationCommands(
   initialPosition,
   initialOrientationRepresentation,
   navigationCommands,
@@ -64,7 +64,7 @@ function followNavigationCommands(
     switch (command) {
       case "F":
         console.log("before position: ", position);
-        position = goStraight(position, orientations[orientationsIndex]);
+        position = goForward(position, orientations[orientationsIndex]);
         console.log("after position: ", position);
         console.log("--------------------------------------");
         break;
@@ -93,7 +93,7 @@ function followNavigationCommands(
         break;
     }
   });
-  return [position, orientationsIndex];
+  return [position, orientations[orientationsIndex].userRepresentation];
 }
 
 function findOrientationByRepresentation(representation) {
@@ -102,10 +102,10 @@ function findOrientationByRepresentation(representation) {
   );
 }
 
-function goStraight(position, orientation) {
+function goForward(position, orientation) {
   let updatedPosition = position;
-  updatedPosition.row += orientation.rows;
   updatedPosition.column += orientation.columns;
+  updatedPosition.row += orientation.rows;
 
   return updatedPosition;
 }
@@ -124,22 +124,23 @@ function turnRight(orientationIndex) {
   return updatedIndex;
 }
 
-function reportPosition(finalPosition, orientationsIndex) {
-  console.log(`Final position = ${finalPosition.row},${finalPosition.column}`);
-  console.log(
-    `Final orientation = ${orientations[orientationsIndex].userRepresentation}`,
-  );
+function reportPosition(finalPosition, finalOrientationRepresentation) {
+  console.log(`Final position = ${finalPosition.column},${finalPosition.row}`);
+  console.log(`Final orientation = ${finalOrientationRepresentation}`);
 
   let resultElement = document.getElementById("text-results");
-  resultElement.innerText = `Report: ${finalPosition.row} ${finalPosition.column} ${orientations[orientationsIndex].userRepresentation}`;
+  resultElement.innerText = `Report: ${finalPosition.column} ${finalPosition.row} ${finalOrientationRepresentation}`;
 
   console.log("exit");
+}
+
+function stopAnimation() {
   let robotImage = document.getElementById("robot-image");
   robotImage.classList.add("robot-end-line");
   robotImage.classList.remove("robot-image-start-animation");
 }
 
-function activateAnimation() {
+function startAnimation() {
   let robotImage = document.getElementById("robot-image");
   robotImage.classList.add("robot-image-start-animation");
   robotImage.classList.remove("robot-end-line");
@@ -167,7 +168,7 @@ function executeCommands() {
     roomSizeReceived,
     positionReceived,
     navigationCommands,
-  ] = getUserData();
+  ] = getInputData();
 
   const roomSize = parseRoomSize(roomSizeReceived);
 
@@ -176,17 +177,23 @@ function executeCommands() {
     initialOrientationRepresentation,
   ] = parseInitialPosition(positionReceived);
 
-  console.log(`1. roomSize = ${roomSize.rows},${roomSize.columns}`);
+  console.log(`1. roomSize = ${roomSize.columns},${roomSize.rows}`);
   console.log(`2. position = ${initialPosition.row},${initialPosition.column}`);
   console.log(`3. orientation = ${initialOrientationRepresentation}`);
 
   console.log(`3. navigationCommands = ${navigationCommands}`);
 
-  let [finalPosition, finalOrientationsIndex] = followNavigationCommands(
+  let [
+    finalPosition,
+    finalOrientationRepresentation,
+  ] = executeNavigationCommands(
     initialPosition,
     initialOrientationRepresentation,
     navigationCommands,
   );
-  activateAnimation();
-  setTimeout(() => reportPosition(finalPosition, finalOrientationsIndex), 2000);
+  startAnimation();
+  setTimeout(() => {
+    stopAnimation();
+    reportPosition(finalPosition, finalOrientationRepresentation);
+  }, 2000);
 }
