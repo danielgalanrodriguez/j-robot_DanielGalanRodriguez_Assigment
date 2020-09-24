@@ -1,0 +1,22 @@
+{
+  "name": "j-robot_danielgalanrodriguez_assigment",
+  "version": "1.0.0",
+  "description": "Jayway's assigment",
+  "main": "robot.js",
+  "scripts": {
+    "test": "jest "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielgalanrodriguez/j-robot_DanielGalanRodriguez_Assigment.git"
+  },
+  "author": "Daniel Galán Rodríguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielgalanrodriguez/j-robot_DanielGalanRodriguez_Assigment/issues"
+  },
+  "homepage": "https://github.com/danielgalanrodriguez/j-robot_DanielGalanRodriguez_Assigment#readme",
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}
