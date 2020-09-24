@@ -3,10 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./robot.css" />
     <title>J-Robot</title>
   </head>
   <body>
-    <h1>Jayway's assignment!</h1>
+    <h1 class="app-title">Jayway's robot control room</h1>
+
+    <section>
+      <form class="row" action="#" onsubmit="alert('submited!')">
+        <div class="input-group">
+          <label for="room-size">How big is the room?</label><br />
+          <input type="text" name="room-size" id="" required />
+        </div>
+
+        <div class="input-group">
+          <label for="robot-position">Where is the robot located?</label><br />
+          <input type="text" name="robot-position" id="" required />
+        </div>
+
+        <div class="input-group">
+          <label for="commands-to-follow">Insert commands:</label> <br />
+          <input type="text" name="commands-to-follow" size="30" required />
+        </div>
+        <div class="row-break"></div>
+        <button class="btn">Send Data</button>
+      </form>
+    </section>
+
+    <section class="row"></section>
+
+    <section class="main-control-area">
+      <h2>Robot progress:</h2>
+
+      <div class="progress">
+        <img class="robot-image" src="./assets/images/robot.png" alt="robot" />
+      </div>
+
+      <div class="progress-percentages">
+        <h4>0%</h4>
+        <h4>50%</h4>
+        <h4>100%</h4>
+      </div>
+
+      <div class="results">
+        <h3>Final Results:</h3>
+        <p class="results-text"></p>
+      </div>
+    </section>
+
     <script src="./robot.js"></script>
   </body>
 </html>
