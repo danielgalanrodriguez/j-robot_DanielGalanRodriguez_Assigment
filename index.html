@@ -10,23 +10,23 @@
     <h1 class="app-title">Jayway's robot control room</h1>
 
     <section>
-      <form class="row" action="#" onsubmit="alert('submited!')">
+      <form class="row" action="#" onsubmit="executeCommands();">
         <div class="input-group">
           <label for="room-size">How big is the room?</label><br />
-          <input type="text" name="room-size" id="" required />
+          <input type="text" id="room-size" value="5 5" required />
         </div>
 
         <div class="input-group">
           <label for="robot-position">Where is the robot located?</label><br />
-          <input type="text" name="robot-position" id="" required />
+          <input type="text" id="robot-position" value="1 2 N" required />
         </div>
 
         <div class="input-group">
           <label for="commands-to-follow">Insert commands:</label> <br />
-          <input type="text" name="commands-to-follow" size="30" required />
+          <input type="text" id="commands-to-follow" value="RFRFFRFRF" size="30" required />
         </div>
         <div class="row-break"></div>
-        <button class="btn">Send Data</button>
+        <button class="btn">Execute Commands</button>
       </form>
     </section>
 
