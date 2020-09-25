@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Jayway's assigment",
   "main": "robot.js",
+  "type": "module",
   "scripts": {
-    "test": "jest "
+    "test": "jest"
   },
   "repository": {
     "type": "git",
