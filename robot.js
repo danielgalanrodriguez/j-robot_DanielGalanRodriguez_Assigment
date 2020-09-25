@@ -58,7 +58,7 @@ function executeNavigationCommands(
   let orientationsIndex = findOrientationByRepresentation(
     initialOrientationRepresentation,
   );
-  let position = initialPosition;
+  let position = { ...initialPosition };
   console.log(orientationsIndex);
   [...navigationCommands].map((command) => {
     switch (command) {
@@ -103,7 +103,7 @@ function findOrientationByRepresentation(representation) {
 }
 
 function goForward(position, orientation) {
-  let updatedPosition = position;
+  let updatedPosition = { ...position };
   updatedPosition.column += orientation.columns;
   updatedPosition.row += orientation.rows;
 
