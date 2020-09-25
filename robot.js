@@ -197,3 +197,14 @@ function executeCommands() {
     reportPosition(finalPosition, finalOrientationRepresentation);
   }, 2000);
 }
+
+module.exports = [
+  orientations,
+  parseRoomSize,
+  parseInitialPosition,
+  executeNavigationCommands,
+  findOrientationByRepresentation,
+  goForward,
+  turnLeft,
+  turnRight,
+];
