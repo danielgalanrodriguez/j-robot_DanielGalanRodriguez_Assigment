@@ -156,7 +156,7 @@ function resetControlRoom() {
  * Main function
  */
 
-function executeCommands() {
+function startJourney() {
   resetControlRoom();
   const [
     roomSizeReceived,
