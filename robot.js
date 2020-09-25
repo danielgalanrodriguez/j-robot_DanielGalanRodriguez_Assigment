@@ -51,6 +51,7 @@ function parseInitialPosition(positionReceived) {
 }
 
 function executeNavigationCommands(
+  roomSize,
   initialPosition,
   initialOrientationRepresentation,
   navigationCommands,
@@ -64,7 +65,11 @@ function executeNavigationCommands(
     switch (command) {
       case "F":
         console.log("before position: ", position);
-        position = goForward(position, orientations[orientationsIndex]);
+        position = goForward(
+          position,
+          orientations[orientationsIndex],
+          roomSize,
+        );
         console.log("after position: ", position);
         console.log("--------------------------------------");
         break;
@@ -102,10 +107,19 @@ function findOrientationByRepresentation(representation) {
   );
 }
 
-function goForward(position, orientation) {
+function goForward(position, orientation, roomSize) {
   let updatedPosition = { ...position };
   updatedPosition.column += orientation.columns;
   updatedPosition.row += orientation.rows;
+
+  if (
+    updatedPosition.column < 0 ||
+    updatedPosition.column >= roomSize.columns ||
+    updatedPosition.row < 0 ||
+    updatedPosition.row >= roomSize.rows
+  ) {
+    throw new Error(`Hey, the robot passed the end of the room! `);
+  }
 
   return updatedPosition;
 }
@@ -183,14 +197,20 @@ function executeCommands() {
 
   console.log(`3. navigationCommands = ${navigationCommands}`);
 
-  let [
-    finalPosition,
-    finalOrientationRepresentation,
-  ] = executeNavigationCommands(
-    initialPosition,
-    initialOrientationRepresentation,
-    navigationCommands,
-  );
+  let finalPosition = {},
+    finalOrientationRepresentation = null;
+  try {
+    [finalPosition, finalOrientationRepresentation] = executeNavigationCommands(
+      roomSize,
+      initialPosition,
+      initialOrientationRepresentation,
+      navigationCommands,
+    );
+  } catch (error) {
+    finalPosition.column = "OUP'S";
+    finalPosition.row = "your robot hit wall";
+    finalOrientationRepresentation = "!";
+  }
   startAnimation();
   setTimeout(() => {
     stopAnimation();
