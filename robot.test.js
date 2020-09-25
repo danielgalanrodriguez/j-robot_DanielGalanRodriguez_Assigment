@@ -40,17 +40,35 @@ test("to go forward correctly depending on the orientation ", () => {
   const finalPositionWest = { column: 0, row: 2 };
 
   expect(finalPositionNorth).toMatchObject(
-    goForward(parsedInitialPosition[0], orientations[0]),
+    goForward(parsedInitialPosition[0], orientations[0], parsedRoomSize),
   );
   expect(finalPositionEast).toMatchObject(
-    goForward(parsedInitialPosition[0], orientations[1]),
+    goForward(parsedInitialPosition[0], orientations[1], parsedRoomSize),
   );
   expect(finalPositionSouth).toMatchObject(
-    goForward(parsedInitialPosition[0], orientations[2]),
+    goForward(parsedInitialPosition[0], orientations[2], parsedRoomSize),
   );
   expect(finalPositionWest).toMatchObject(
-    goForward(parsedInitialPosition[0], orientations[3]),
+    goForward(parsedInitialPosition[0], orientations[3], parsedRoomSize),
   );
+});
+
+test("to go throw an error if the wall is hit ", () => {
+  const firstPosition = { column: 0, row: 0 };
+  const lastPosition = { column: 4, row: 4 };
+
+  expect(() =>
+    goForward(firstPosition, orientations[0], parsedRoomSize),
+  ).toThrow(Error);
+  expect(() =>
+    goForward(firstPosition, orientations[3], parsedRoomSize),
+  ).toThrow(Error);
+  expect(() =>
+    goForward(lastPosition, orientations[1], parsedRoomSize),
+  ).toThrow(Error);
+  expect(() =>
+    goForward(lastPosition, orientations[2], parsedRoomSize),
+  ).toThrow(Error);
 });
 
 test("to change orientation to the left correctly ", () => {
@@ -77,13 +95,29 @@ test("to change orientation to the right correctly ", () => {
   expect(orientations[0].userRepresentation).toBe("N");
 });
 
-test("to execute correctly the given commands ", () => {
+test("to execute correctly the given navigation commands ", () => {
   const finalReport = [{ column: 4, row: 3 }, "E"];
   expect(finalReport).toMatchObject(
     executeNavigationCommands(
+      roomSize,
       parsedInitialPosition[0],
       "E",
       navigationCommands,
     ),
   );
 });
+
+
+test("to omit invalid navigation commands ", () => {
+    const finalReport = [{ column: 4, row: 3 }, "E"];
+    const invalidNavigationCommands = "WPflfbN"
+    expect(finalReport).toMatchObject(
+      executeNavigationCommands(
+        roomSize,
+        finalReport[0],
+        "E",
+        invalidNavigationCommands,
+      ),
+    );
+  });
+  
