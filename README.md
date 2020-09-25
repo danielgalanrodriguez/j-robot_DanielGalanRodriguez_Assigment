@@ -113,7 +113,7 @@ To finish with the JS we have the "startJourney" function which is the main func
 It is call when the data in the HTML form is submitted and it calls the other functions to get the user data, parse it and execute the commands catching possible errors.<br/>
 At the end, when all the work is done it starts the robot animation and sets a timeout,(to give time to the animation to finish) that reports the final data to the user when the time is due.
 
-### Testing decisions
+## Decisions made in testing implementation
 
 Due to time restrictions I decided to just test the JS functions that are critical for the system and do not interact with the DOM or get input data. I would be nice to test them and ensure that the user has a correct interaction.<br/>
 That means we assume that the input from the user is always correct.
@@ -122,18 +122,32 @@ I also avoided adding a compiler since the browser seems to deal just fine with 
 
 Using the data of the examples and adding some more we are able to test the correct behavior of the important functions.
 
-First, we ensure the correct behavior of the parser functions as an incorrect parsing will break all the system. We test it ensuring that they return a correct object matching with one that we know is correct. No special cases here.
+### Parser functions
+
+First, we ensure the correct behavior of the parser functions as an incorrect parsing will break all the system. We test it ensuring that they return a correct object matching it with one that we know is correct. No special cases here.
+
+### Find orientation index in array
 
 Then we test the function to find the appropriate orientation object given the capital letter of the orientation. Since it is just a function from the JS library we can avoid testing it but it was easy and not time consuming so I decided to test it.
 
+### goForward function
+
 After that we test the function that performs the operation of going forward. This function just performs an addition and maybe it can be avoided as well but, again, it was easy and not time consuming so I decided to test it.
+
+### Room limits
 
 Next we check if the last function correctly throws an error when the robot exceeds the limits of the room. <br/>
 To test it we set 2 positions, one on the top left corner of the room and the other on the bottom right corner. With the first position we can check the north and west orientations just going one command forward and the same for the east and south orientations with the second position. <br/>
 If it does not throw an error the test fails.
 
+### Turning functions
+
 Now we check the turning functions to see if we turn correctly. The special cases here are when we are at the begging of the orientations array and we turn left and when we are at the end of the array and we turn right. This cases are specially included.
 
+### Navigation commands execution
+
 Almost at the end, we of course need to check the correct behavior of the "executeNavigationCommands" function, so we test it with the two examples of the assignment and one additional that I made up to check a different room size.
+
+### Invalid commands
 
 Finally we test that if we have invalid commands the robot does not move.
