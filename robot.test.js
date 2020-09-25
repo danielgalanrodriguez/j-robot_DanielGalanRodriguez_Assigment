@@ -1,4 +1,3 @@
-// import { parseRoomSize, parseInitialPosition } from "./robot.js";
 const [
   orientations,
   parseRoomSize,

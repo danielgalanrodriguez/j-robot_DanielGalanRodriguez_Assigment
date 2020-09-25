@@ -60,37 +60,22 @@ function executeNavigationCommands(
     initialOrientationRepresentation,
   );
   let position = { ...initialPosition };
-  console.log(orientationsIndex);
+
   [...navigationCommands].map((command) => {
     switch (command) {
       case "F":
-        console.log("before position: ", position);
         position = goForward(
           position,
           orientations[orientationsIndex],
           roomSize,
         );
-        console.log("after position: ", position);
-        console.log("--------------------------------------");
         break;
       case "L":
-        console.log("before orientationsIndex: ", orientationsIndex);
         orientationsIndex = turnLeft(orientationsIndex);
-        console.log("after orientationsIndex: ", orientationsIndex);
-
-        console.log(
-          "orientation: ",
-          orientations[orientationsIndex].userRepresentation,
-        );
 
         break;
       case "R":
         orientationsIndex = turnRight(orientationsIndex);
-        console.log(
-          "orientation: ",
-          orientations[orientationsIndex].userRepresentation,
-        );
-
         break;
 
       default:
@@ -139,13 +124,8 @@ function turnRight(orientationIndex) {
 }
 
 function reportPosition(finalPosition, finalOrientationRepresentation) {
-  console.log(`Final position = ${finalPosition.column},${finalPosition.row}`);
-  console.log(`Final orientation = ${finalOrientationRepresentation}`);
-
   let resultElement = document.getElementById("text-results");
   resultElement.innerText = `Report: ${finalPosition.column} ${finalPosition.row} ${finalOrientationRepresentation}`;
-
-  console.log("exit");
 }
 
 function stopAnimation() {
@@ -190,12 +170,6 @@ function executeCommands() {
     initialPosition,
     initialOrientationRepresentation,
   ] = parseInitialPosition(positionReceived);
-
-  console.log(`1. roomSize = ${roomSize.columns},${roomSize.rows}`);
-  console.log(`2. position = ${initialPosition.row},${initialPosition.column}`);
-  console.log(`3. orientation = ${initialOrientationRepresentation}`);
-
-  console.log(`3. navigationCommands = ${navigationCommands}`);
 
   let finalPosition = {},
     finalOrientationRepresentation = null;
