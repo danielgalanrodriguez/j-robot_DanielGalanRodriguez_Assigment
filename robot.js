@@ -192,13 +192,19 @@ function executeCommands() {
   }, 2000);
 }
 
-module.exports = [
-  orientations,
-  parseRoomSize,
-  parseInitialPosition,
-  executeNavigationCommands,
-  findOrientationByRepresentation,
-  goForward,
-  turnLeft,
-  turnRight,
-];
+try {
+  module.exports = [
+    orientations,
+    parseRoomSize,
+    parseInitialPosition,
+    executeNavigationCommands,
+    findOrientationByRepresentation,
+    goForward,
+    turnLeft,
+    turnRight,
+  ];
+} catch (error) {
+  console.log(
+    "A compiler should be used to handle better Exports/imports. Not used to keep it simple.",
+  );
+}
