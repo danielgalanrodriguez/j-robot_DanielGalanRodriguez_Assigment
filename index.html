@@ -13,17 +13,28 @@
       <form class="row" action="#" onsubmit="executeCommands();">
         <div class="input-group">
           <label for="room-size">How big is the room?</label><br />
-          <input type="text" id="room-size" value="5 5" required />
+          <input type="text" id="room-size" placeholder="Room size" required />
         </div>
 
         <div class="input-group">
           <label for="robot-position">Where is the robot located?</label><br />
-          <input type="text" id="robot-position" value="1 2 N" required />
+          <input
+            type="text"
+            id="robot-position"
+            placeholder="Robot initial position"
+            required
+          />
         </div>
 
         <div class="input-group">
           <label for="commands-to-follow">Insert commands:</label> <br />
-          <input type="text" id="commands-to-follow" value="RFRFFRFRF" size="30" required />
+          <input
+            type="text"
+            id="commands-to-follow"
+            placeholder="Commands to follow"
+            size="30"
+            required
+          />
         </div>
         <div class="row-break"></div>
         <button class="btn">Execute Commands</button>
@@ -36,7 +47,12 @@
       <h2>Robot progress:</h2>
 
       <div class="progress">
-        <img class="robot-image" id="robot-image" src="./assets/images/robot.png" alt="robot" />
+        <img
+          class="robot-image"
+          id="robot-image"
+          src="./assets/images/robot.png"
+          alt="robot"
+        />
       </div>
 
       <div class="progress-percentages">
@@ -44,7 +60,7 @@
         <h4>50%</h4>
         <h4>100%</h4>
       </div>
-      <hr>
+      <hr />
       <div class="results">
         <h3>Final Results</h3>
         <p class="text-results" id="text-results"></p>
