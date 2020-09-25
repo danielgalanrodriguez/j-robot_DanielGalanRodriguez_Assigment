@@ -1,7 +1,7 @@
 {
-  "name": "j-robot_danielgalanrodriguez_assigment",
+  "name": "j-robot_danielgalanrodriguez_assignment",
   "version": "1.0.0",
-  "description": "Jayway's assigment",
+  "description": "Jayway's assignment",
   "main": "robot.js",
   "type": "module",
   "scripts": {
