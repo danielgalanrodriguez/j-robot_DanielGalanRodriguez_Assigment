@@ -11,9 +11,9 @@ const [
 
 const roomSize = "5 5";
 const parsedRoomSize = { columns: 5, rows: 5 };
-const initialPosition = "1 2 E";
-const parsedInitialPosition = [{ column: 1, row: 2 }, "E"];
-const navigationCommands = "RFLFFLRF";
+const initialPosition = "1 2 N";
+const parsedInitialPosition = [{ column: 1, row: 2 }, "N"];
+const navigationCommands = "RFRFFRFRF";
 
 test("to match parsed room size '5 5' to correct object", () => {
   expect(parsedRoomSize).toMatchObject(parseRoomSize(roomSize));
@@ -94,8 +94,23 @@ test("to change orientation to the right correctly ", () => {
   expect(orientations[0].userRepresentation).toBe("N");
 });
 
-test("to execute correctly the given navigation commands ", () => {
-  const finalReport = [{ column: 4, row: 3 }, "E"];
+test("to execute correctly the given first example navigation commands ", () => {
+  const finalReport = [{ column: 1, row: 3 }, "N"];
+  expect(finalReport).toMatchObject(
+    executeNavigationCommands(
+      parsedRoomSize,
+      parsedInitialPosition[0],
+      parsedInitialPosition[1],
+      navigationCommands,
+    ),
+  );
+});
+
+test("to execute correctly the given second example navigation commands ", () => {
+  const parsedRoomSize = { columns: 5, rows: 5 };
+  const parsedInitialPosition = [{ column: 0, row: 0 }, "E"];
+  const navigationCommands = "RFLFFLRF";
+  const finalReport = [{ column: 3, row: 1 }, "E"];
   expect(finalReport).toMatchObject(
     executeNavigationCommands(
       roomSize,
@@ -106,17 +121,31 @@ test("to execute correctly the given navigation commands ", () => {
   );
 });
 
+test("to execute correctly the given second example navigation commands ", () => {
+  let parsedRoomSize = { columns: 5, rows: 4 };
+  let parsedInitialPosition = [{ column: 4, row: 3 }, "E"];
+  let navigationCommands = "ELLFRFLFFRFF";
+  const finalReport = [{ column: 1, row: 0 }, "N"];
+  expect(finalReport).toMatchObject(
+    executeNavigationCommands(
+      parsedRoomSize,
+      parsedInitialPosition[0],
+      parsedInitialPosition[1],
+      navigationCommands,
+    ),
+  );
+});
+
 
 test("to omit invalid navigation commands ", () => {
-    const finalReport = [{ column: 4, row: 3 }, "E"];
-    const invalidNavigationCommands = "WPflfbN"
-    expect(finalReport).toMatchObject(
-      executeNavigationCommands(
-        roomSize,
-        finalReport[0],
-        "E",
-        invalidNavigationCommands,
-      ),
-    );
-  });
-  
+  const finalReport = [{ column: 4, row: 3 }, "E"];
+  const invalidNavigationCommands = "WPflfbN";
+  expect(finalReport).toMatchObject(
+    executeNavigationCommands(
+      roomSize,
+      finalReport[0],
+      finalReport[1],
+      invalidNavigationCommands,
+    ),
+  );
+});
