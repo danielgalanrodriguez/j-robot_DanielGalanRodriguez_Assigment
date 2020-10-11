@@ -142,7 +142,7 @@ If it does not throw an error the test fails.
 
 ### Turning functions
 
-Now we check the turning functions to see if we turn correctly. The special cases here are when we are at the begging of the orientations array and we turn left and when we are at the end of the array and we turn right. This cases are specially included.In the first one the function must go to the end and the second one to the beggining of the array.
+Now we check the turning functions to see if we turn correctly. The special cases here are when we are at the begging of the orientations array and we turn left and when we are at the end of the array and we turn right. This cases are specially included. In the first one the function must go to the end and the second one to the beggining of the array.
 
 ### Navigation commands execution
 
