@@ -34,7 +34,7 @@ npm test
 
 ### Javascript
 
-It was easy to pick a language to develop this assignment. I chose Javascript because, in my opinion, it is the simplest language to solve the assignment and the fastest to setup.
+It was easy to pick a language to develop this assignment. I chose Javascript because, with my expertise, it is the most adecuate language to solve the assignment and the fastest to setup.
 
 My approach is to keep it as simple as possible with the minimum code and avoiding boilerplate. JS does not require any type of configuration, you can start programming right away with no boilerplate at all. Finally since it is web based it was an obvious solution as well.
 
@@ -44,7 +44,7 @@ I used HTML and CSS to create the skeleton of the page and to apply styles.
 
 ## Frameworks used
 
-I did not use any framework for the solution. I though about using React but there aren't many DOM manipulations and all them are simple ones so I decided not to use it. Adding React or any other framework would just add more complexity to the project and, in my opinion, it does not provided much advantages so I decided that it was not worth it.
+I did not use any framework for the solution. I though about using React but there aren't many DOM manipulations and all of them are simple ones so I decided not to use it. Adding React or any other framework would just add more complexity to the project and, in my opinion, it does not provided much advantages so I decided that it was not worth it.
 
 ### Jest
 
@@ -60,11 +60,11 @@ We have the main HTML file "index.html", the "robot.css" file where the styles a
 ### HTML decisions
 
 In here I decided to have a simple structure with a descriptive title at the top.<br/>
-Then comes the input section where the user can insert the 3 peaces of information that the app needs. In that section I decided to use an HTML form to take advantage of the "required" attribute of the inputs, but since there is no backend the form does not perform any actions just executes the main JS function, when it is submitted, that handles all the logic.<br/> Finally there is the results section where the final report is shown to the user as well as a small robot animation to make it a bit more funny and visual.
+Then comes the input section where the user can insert the 3 peaces of information that the app needs. In that section I decided to use an HTML form to take advantage of the "required" attribute of the inputs, but since there is no backend the form does not perform any actions just executes the main JS function, when it is submitted, that handles all the logic.<br/> Finally there is the results section where the final report is shown to the user as well as a simple robot animation to make it a bit more funny and visual.
 
 ### CSS decisions
 
-In terms of styles, all of them are created from scratch and the main purpose was to make it look a bit retro with the black,grey and the green colors.
+In terms of styles, all of them are created from scratch and the main purpose was to make it look a bit retro with the black, grey and green colors.
 
 Not complex styles here, mainly padding and margin for good spacing. I used flexbox to align easily some elements. I added a transition that scales the button to a bigger size when hovered to add more visual interaction.
 
@@ -72,7 +72,7 @@ I created the class ".rowBreak" to add an empty element that takes all the horiz
 
 The ".progress" class draws a progress bar from where the robot image will advance. After that we have the ".robot-image" class that using a relative position brings the robot to the start of the progress bar and assigns the animation attributes.
 
-Regarding the classes ".robot-image-start-animation" and ".robot-end-line" those are basically created to make easier the manipulation of the animation from JS. The first one can be merged with ".robot-image" and the second one can be deleted if we just want to execute it once. However, adding and removing this classes to the element we can re run the animation every time we execute the robot commands.
+Regarding the classes ".robot-image-start-animation" and ".robot-end-line" those are basically created to make easier the manipulation of the animation from JS. The first one can be merged with ".robot-image" and the second one can be deleted if we just want to execute it once. However, adding and removing this classes to the element we can re run the animation every time we execute the robot commands without needing to reload the page.
 
 ### Javascript decisions
 
@@ -93,7 +93,7 @@ Once we have all the data properly parsed we just need to execute the commands a
 
 It takes 4 arguments room size , initial position, initial orientation capital letter and of course the navigation commands
 
-So, first of all we need to know which orientation object we need to use because right now we only have the initial letter. It is a simple search in the array with all the orientations that returns the index of the matched object.It could have been done right in this function but to keep the "single purpose" of the function I have decided to extract it to another one. At this point we have all the needed information so we can start executing commands.
+So, first of all we need to know which orientation object we need to use because right now we only have the initial letter. It is a simple search in the array with all the orientations that returns the index of the matched object. It could have been done right in this function but to keep the "single purpose" of the function I have decided to extract it in to its own one. At this point we have all the needed information so we can start executing commands.
 
 To start executing we spread the commands string to convert it to an array and iterate over it with the map function. <br/>
 Inside the callback of the map function I have decided to use a switch statement for its readability and simplicity.
@@ -115,8 +115,8 @@ At the end, when all the work is done it starts the robot animation and sets a t
 
 ## Decisions made in testing implementation
 
-Due to time restrictions I decided to just test the JS functions that are critical for the system and do not interact with the DOM or get input data. I would be nice to test them and ensure that the user has a correct interaction.<br/>
-That means we assume that the input from the user is always correct.
+Due to time restrictions I decided to just test the JS functions that are critical for the system and do not interact with the DOM or get input data. It would be nice to test them and ensure that the user has a correct interaction.<br/>
+We assume that the input from the user is always correct.
 
 I also avoided adding a compiler since the browser seems to deal just fine with module exportation/importation and it will imply more complexity.
 
@@ -136,17 +136,17 @@ After that we test the function that performs the operation of going forward. Th
 
 ### Room limits
 
-Next we check if the last function correctly throws an error when the robot exceeds the limits of the room. <br/>
+Next we check if the function commented above correctly throws an error when the robot exceeds the limits of the room. <br/>
 To test it we set 2 positions, one on the top left corner of the room and the other on the bottom right corner. With the first position we can check the north and west orientations just going one command forward and the same for the east and south orientations with the second position. <br/>
 If it does not throw an error the test fails.
 
 ### Turning functions
 
-Now we check the turning functions to see if we turn correctly. The special cases here are when we are at the begging of the orientations array and we turn left and when we are at the end of the array and we turn right. This cases are specially included.
+Now we check the turning functions to see if we turn correctly. The special cases here are when we are at the begging of the orientations array and we turn left and when we are at the end of the array and we turn right. This cases are specially included.In the first one the function must go to the end and the second one to the beggining of the array.
 
 ### Navigation commands execution
 
-Almost at the end, we of course need to check the correct behavior of the "executeNavigationCommands" function, so we test it with the two examples of the assignment and one additional that I made up to check a different room size.
+Almost at the end, we of course need to check the correct behavior of the "executeNavigationCommands" function, so we test it with the two examples of the assignment and one additional that I made up to check with a different room size.
 
 ### Invalid commands
 
